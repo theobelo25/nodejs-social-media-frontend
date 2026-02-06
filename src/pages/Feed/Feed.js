@@ -172,8 +172,8 @@ class Feed extends Component {
     if (this.state.editPost)
       formData.append("oldPath", this.state.editPost.imagePath);
 
-    fetch(process.env.REACT_APP_API_URL, {
-      method: "POST",
+    fetch(process.env.REACT_APP_POST_IMAGE_URL, {
+      method: "PUT",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
       },
