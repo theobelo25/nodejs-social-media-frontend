@@ -166,14 +166,13 @@ class Feed extends Component {
       editLoading: true,
     });
     const { title, content, image } = postData;
-    console.log("HERE!", postData);
-    console.error("HERE!", postData);
+
     const formData = new FormData();
     formData.append("image", image);
     if (this.state.editPost)
       formData.append("oldPath", this.state.editPost.imagePath);
 
-    fetch(process.env.REACT_APP_POST_IMAGE_URL, {
+    fetch(`${process.env.REACT_APP_DB_URL}/post-image`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
