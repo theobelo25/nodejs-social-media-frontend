@@ -168,7 +168,7 @@ class Feed extends Component {
     const { title, content, image } = postData;
 
     const formData = new FormData();
-    formData.append("image", postData.image);
+    formData.append("image", image);
     if (this.state.editPost)
       formData.append("oldPath", this.state.editPost.imagePath);
 
