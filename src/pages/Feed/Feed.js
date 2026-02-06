@@ -29,7 +29,7 @@ class Feed extends Component {
         }
       }`,
     };
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
@@ -84,7 +84,7 @@ class Feed extends Component {
         page,
       },
     };
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
@@ -124,7 +124,7 @@ class Feed extends Component {
         status: this.state.status,
       },
     };
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
@@ -172,7 +172,7 @@ class Feed extends Component {
     if (this.state.editPost)
       formData.append("oldPath", this.state.editPost.imagePath);
 
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
@@ -241,7 +241,7 @@ class Feed extends Component {
             },
           };
 
-        return fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+        return fetch(process.env.REACT_APP_API_URL, {
           method: "POST",
           headers: {
             Authorization: `Bearer ${this.props.token}`,
@@ -324,7 +324,7 @@ class Feed extends Component {
         postId,
       },
     };
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch(process.env.REACT_APP_API_URL, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
