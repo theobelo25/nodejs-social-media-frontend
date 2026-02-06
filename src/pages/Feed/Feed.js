@@ -173,7 +173,7 @@ class Feed extends Component {
       formData.append("oldPath", this.state.editPost.imagePath);
 
     fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
-      method: "PUT",
+      method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
       },
