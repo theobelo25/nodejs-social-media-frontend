@@ -161,7 +161,7 @@ class Feed extends Component {
     this.setState({ isEditing: false, editPost: null });
   };
 
-  finishEditHandler = (postData) => {
+  finishEditHandler = async (postData) => {
     this.setState({
       editLoading: true,
     });
@@ -172,19 +172,19 @@ class Feed extends Component {
     if (this.state.editPost)
       formData.append("oldPath", this.state.editPost.imagePath);
 
-    fetch(`${process.env.REACT_APP_DB_URL}/post-image`, {
-      method: "PUT",
-      headers: {
-        Authorization: `Bearer ${this.props.token}`,
-      },
-      body: formData,
-    })
-      .then((res) => res.json())
-      .then((fileResData) => {
-        const imageUrl = fileResData.filePath;
+    try {
+      const res = await fetch(`${process.env.REACT_APP_DB_URL}/post-image`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${this.props.token}`,
+        },
+        body: formData,
+      });
+      const result = await res.json();
+      const imageUrl = result.filePath;
 
-        let graphqlQuery = {
-          query: `
+      let graphqlQuery = {
+        query: `
             mutation CreatePost($title: String!, $content: String!, $imageUrl: String!) {
               createPost(postInput: {
                 title: $title,
@@ -202,16 +202,16 @@ class Feed extends Component {
               }
             }
           `,
-          variables: {
-            title,
-            content,
-            imageUrl,
-          },
-        };
+        variables: {
+          title,
+          content,
+          imageUrl,
+        },
+      };
 
-        if (this.state.editPost)
-          graphqlQuery = {
-            query: `
+      if (this.state.editPost)
+        graphqlQuery = {
+          query: `
             mutation UpdatePost($id: String!, $title: String!, $content: String!, $imageUrl: String!) {
               updatePost(
                 id: $id,
@@ -233,79 +233,78 @@ class Feed extends Component {
               }
             }
           `,
-            variables: {
-              id: this.state.editPost._id,
-              title,
-              content,
-              imageUrl,
-            },
-          };
-
-        return fetch(process.env.REACT_APP_API_URL, {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${this.props.token}`,
-            "Content-Type": "application/json",
+          variables: {
+            id: this.state.editPost._id,
+            title,
+            content,
+            imageUrl,
           },
-          body: JSON.stringify(graphqlQuery),
-        });
-      })
-      .then((res) => {
-        return res.json();
-      })
-      .then((resData) => {
-        if (resData.errors && resData.errors[0].status === 422) {
-          throw new Error("Validation failed. Please check your input fields.");
-        }
-        if (resData.errors) {
-          let message = "Post creation failed!";
-          if (this.state.editPost) message = "User update failed!";
-
-          throw new Error(message);
-        }
-        console.log(resData);
-        let data = resData.data.createPost;
-        if (this.state.editPost) data = resData.data.updatePost;
-
-        const post = {
-          _id: data._id,
-          title: data.title,
-          content: data.content,
-          creator: data.creator,
-          createdAt: data.createdAt,
-          imagePath: data.imageUrl,
         };
 
-        this.setState((prevState) => {
-          let updatedPosts = [...prevState.posts];
-          if (prevState.editPost) {
-            const postIndex = prevState.posts.findIndex(
-              (p) => p._id === prevState.editPost._id,
-            );
-            updatedPosts[postIndex] = post;
-          } else {
-            if (prevState.posts.length >= 2) {
-              updatedPosts.pop();
-            }
-            updatedPosts.unshift(post);
+      const restwo = await fetch(process.env.REACT_APP_API_URL, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.props.token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(graphqlQuery),
+      });
+
+      const resData = await restwo.json();
+
+      console.log(resData);
+
+      if (resData.errors && resData.errors[0].status === 422) {
+        throw new Error("Validation failed. Please check your input fields.");
+      }
+      if (resData.errors) {
+        let message = "Post creation failed!";
+        if (this.state.editPost) message = "User update failed!";
+
+        throw new Error(message);
+      }
+      console.log(resData);
+      let data = resData.data.createPost;
+      if (this.state.editPost) data = resData.data.updatePost;
+
+      const post = {
+        _id: data._id,
+        title: data.title,
+        content: data.content,
+        creator: data.creator,
+        createdAt: data.createdAt,
+        imagePath: data.imageUrl,
+      };
+
+      this.setState((prevState) => {
+        let updatedPosts = [...prevState.posts];
+        if (prevState.editPost) {
+          const postIndex = prevState.posts.findIndex(
+            (p) => p._id === prevState.editPost._id,
+          );
+          updatedPosts[postIndex] = post;
+        } else {
+          if (prevState.posts.length >= 2) {
+            updatedPosts.pop();
           }
-          return {
-            posts: updatedPosts,
-            isEditing: false,
-            editPost: null,
-            editLoading: false,
-          };
-        });
-      })
-      .catch((err) => {
-        console.log(err);
-        this.setState({
+          updatedPosts.unshift(post);
+        }
+        return {
+          posts: updatedPosts,
           isEditing: false,
           editPost: null,
           editLoading: false,
-          error: err,
-        });
+        };
       });
+    } catch (err) {
+      console.log(err);
+      this.setState({
+        isEditing: false,
+        editPost: null,
+        editLoading: false,
+        error: err,
+      });
+    }
   };
 
   statusInputChangeHandler = (input, value) => {
