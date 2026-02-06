@@ -58,6 +58,7 @@ class App extends Component {
 
   loginHandler = (event, authData) => {
     event.preventDefault();
+    console.log(process.env.REACT_APP_DB_HOST);
     const { email, password } = authData;
     const graphqlQuery = {
       query: `
