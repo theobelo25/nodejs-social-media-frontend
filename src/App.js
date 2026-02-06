@@ -74,7 +74,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch("https://nodejs-social-db.theocodesvps.net/graphql/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -139,7 +139,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
+    fetch("https://nodejs-social-db.theocodesvps.net/graphql/", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
