@@ -166,7 +166,8 @@ class Feed extends Component {
       editLoading: true,
     });
     const { title, content, image } = postData;
-
+    console.log("HERE!", postData);
+    console.error("HERE!", postData);
     const formData = new FormData();
     formData.append("image", image);
     if (this.state.editPost)
