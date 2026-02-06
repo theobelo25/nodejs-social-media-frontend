@@ -31,7 +31,7 @@ class SinglePost extends Component {
         postId,
       },
     };
-    fetch(process.env.DB_HOST, {
+    fetch(process.env.REACT_APP_DB_HOST, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
