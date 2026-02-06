@@ -25,7 +25,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log(process.env.REACT_APP_DB_HOST);
     const token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     if (!token || !expiryDate) {
@@ -59,7 +58,6 @@ class App extends Component {
 
   loginHandler = (event, authData) => {
     event.preventDefault();
-    console.log(process.env.REACT_APP_DB_HOST);
     const { email, password } = authData;
     const graphqlQuery = {
       query: `
@@ -76,7 +74,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch(process.env.REACT_APP_DB_HOST, {
+    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +82,6 @@ class App extends Component {
       body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
-        console.log(process.env.REACT_APP_DB_HOST);
         return res.json();
       })
       .then((resData) => {
@@ -142,7 +139,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch(process.env.REACT_APP_DB_HOST, {
+    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -150,7 +147,6 @@ class App extends Component {
       body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
-        console.log(process.env.REACT_APP_DB_HOST);
         return res.json();
       })
       .then((resData) => {

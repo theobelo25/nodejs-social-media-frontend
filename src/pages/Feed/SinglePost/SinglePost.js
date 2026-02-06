@@ -31,7 +31,7 @@ class SinglePost extends Component {
         postId,
       },
     };
-    fetch(process.env.REACT_APP_DB_HOST, {
+    fetch("https://nodejs-social-db.theocodesvps.net/graphql", {
       method: "POST",
       headers: {
         Authorization: `Bearer ${this.props.token}`,
@@ -53,7 +53,7 @@ class SinglePost extends Component {
         this.setState({
           title: resData.data.post.title,
           author: resData.data.post.creator.name,
-          image: `${process.env.DB_HOST}${resData.data.post.imageUrl}`,
+          image: `https://nodejs-social-db.theocodesvps.net/post-image${resData.data.post.imageUrl}`,
           date: new Date(resData.data.post.createdAt).toLocaleDateString(
             "en-US",
           ),
