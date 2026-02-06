@@ -25,6 +25,7 @@ class App extends Component {
   };
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_DB_HOST);
     const token = localStorage.getItem("token");
     const expiryDate = localStorage.getItem("expiryDate");
     if (!token || !expiryDate) {
