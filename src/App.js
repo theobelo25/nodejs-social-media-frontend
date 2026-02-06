@@ -74,7 +74,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch(process.env.DB_HOST, {
+    fetch(process.env.REACT_APP_DB_HOST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -139,7 +139,7 @@ class App extends Component {
       },
     };
     this.setState({ authLoading: true });
-    fetch(process.env.DB_HOST, {
+    fetch(process.env.REACT_APP_DB_HOST, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
