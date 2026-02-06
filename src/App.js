@@ -147,6 +147,7 @@ class App extends Component {
       body: JSON.stringify(graphqlQuery),
     })
       .then((res) => {
+        console.log(process.env.REACT_APP_DB_HOST);
         return res.json();
       })
       .then((resData) => {
