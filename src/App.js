@@ -89,7 +89,7 @@ class App extends Component {
           throw new Error("Validation failed. Please check your input fields.");
         }
         if (resData.errors) {
-          throw new Error("User creation failed!");
+          throw new Error("User login failed!");
         }
 
         console.log(resData);

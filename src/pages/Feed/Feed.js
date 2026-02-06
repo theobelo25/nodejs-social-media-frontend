@@ -258,7 +258,7 @@ class Feed extends Component {
           throw new Error("Validation failed. Please check your input fields.");
         }
         if (resData.errors) {
-          let message = "User creation failed!";
+          let message = "Post creation failed!";
           if (this.state.editPost) message = "User update failed!";
 
           throw new Error(message);
